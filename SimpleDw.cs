@@ -47,6 +47,27 @@ namespace ConsoleAppDwSimple
 
                 Console.WriteLine("Token: " + platform_token);
 
+                Console.WriteLine("Displaying User Connection Information");
+                Organization organization = serviceConnection.Organizations.FirstOrDefault();
+                if (organization != null)
+                {
+                    Console.WriteLine($"Current organization: {organization.Name}");
+                    UserInfo userInfo = await organization.GetUserInfoFromUserInfoRelationAsync();
+                    if (userInfo != null)
+                    {
+                        if (userInfo.User != null)
+                        {
+                            Console.WriteLine($"Authenticated user: {userInfo.User.Name}");
+                            Console.WriteLine($"Last Name: {userInfo.User.LastName}");
+                            Console.WriteLine($"First Name: {userInfo.User.FirstName}");
+                            Console.WriteLine($"DB Name: {userInfo.User.DBName}");
+                            Console.WriteLine($"Email: {userInfo.User.EMail}");
+                            Console.WriteLine($"Id: {userInfo.User.Id}");
+                            Console.WriteLine($"Network Id: {userInfo.User.NetworkId}");
+                        }
+                    }
+                }
+
                 //create a filecabinet reference
                 FileCabinet fileCabinet = serviceConnection.GetFileCabinet(_filecabinetid);
 
